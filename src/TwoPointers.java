@@ -128,6 +128,7 @@ public class TwoPointers {
 //        System.out.println(Arrays.toString(findTargetSum(new int[]{1, 2, 3, 4, 6}, 6)));
 //        System.out.println(findNumOfUniqueElements(new int[]{2, 3, 3, 3, 6, 9, 9}));
 //        System.out.println(Arrays.toString(squareSortedArr(new int[]{-2, -1, 0, 2, 3})));
+
         System.out.println(findTriplets(new int[]{-3, 0, 1, 2, -1, 1, -2}));
     }
 
