@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class TwoPointers {
 
@@ -108,19 +109,79 @@ public class TwoPointers {
     //Explanation: There are two unique triplets whose sum is equal to zero.
     static List<List<Integer>> findTriplets(int[] arr){
         List<List<Integer>> result = new ArrayList<>();
-        for (int i = 0; i < arr.length -2; i++) {
-            List<Integer> innerResult = new ArrayList<>();
-            innerResult.add(arr[i]);
-            for (int j = i; j < arr.length -1; j++) {
-                if(arr[i] + arr[j] + arr[ j + 1] == 0){
-                    innerResult.add(arr[j]);
-                    innerResult.add(arr[j+1]);
-                    result.add(innerResult);
-                    break;
+        Arrays.sort(arr);
+        for (int i = 0; i < arr.length - 2; i++) {
+
+            if(i > 0  && arr[i] == arr[i-1]) continue;
+
+            int left = i + 1;
+            int right = arr.length -1;
+            while (left < right){
+                int sum = arr[i] + arr[left] + arr[right];
+                if(sum == 0){
+                    result.add(Arrays.asList(arr[i], arr[left], arr[right]));
+                    while(left < right && arr[left] == arr[left + 1]) left++;
+                    while(left < right && arr[right] == arr[right - 1]) right--;
+                    left++;
+                    right--;
+                } else if (sum > 0) {
+                    right--;
+                }else{
+                    left++;
                 }
             }
         }
         return result;
+    }
+
+    //Problem Statement #
+    //Given an array of unsorted numbers and a target number,
+    // find a triplet in the array whose sum is as close to the target number as possible,
+    // return the sum of the triplet. If there are more than one such triplet,
+    // return the sum of the triplet with the smallest sum.
+    //
+    //Example 1:
+    //
+    //Input: [-2, 0, 1, 2], target=2
+    //Output: 1
+    //Explanation: The triplet [-2, 1, 2] has the closest sum to the target.
+    //Example 2:
+    //
+    //Input: [-3, -1, 1, 2], target=1
+    //Output: 0
+    //Explanation: The triplet [-3, 1, 2] has the closest sum to the target.
+    //Example 3:
+    //
+    //Input: [1, 0, 1, 1], target=100
+    //Output: 3
+    //Explanation: The triplet [1, 1, 1] has the closest sum to the target.
+
+    static int closetTriplets(int[] arr, int target){
+        Arrays.sort(arr);
+        int result = Integer.MAX_VALUE;
+        int smallestSum = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length - 2; i++) {
+            if(i > 0 && arr[i] == arr[i - 1]) continue;
+            int left = i + 1, right = arr.length - 1;
+            while(left < right){
+                int sum = arr[i] + arr[left] + arr[right];
+                int dist = Math.abs(target - sum);
+                if(dist == 0){
+                    return sum;
+                }
+                if(result > dist || (result == dist && sum < smallestSum)){
+                    result = dist;
+                    smallestSum = sum;
+                }
+                if(dist > result){
+                    right--;
+                }else {
+                    left++;
+                }
+
+            }
+        }
+        return smallestSum;
     }
 
 
@@ -129,7 +190,8 @@ public class TwoPointers {
 //        System.out.println(findNumOfUniqueElements(new int[]{2, 3, 3, 3, 6, 9, 9}));
 //        System.out.println(Arrays.toString(squareSortedArr(new int[]{-2, -1, 0, 2, 3})));
 
-        System.out.println(findTriplets(new int[]{-3, 0, 1, 2, -1, 1, -2}));
+//        System.out.println(findTriplets(new int[]{-3, 0, 1, 2, -1, 1, -2}));
+        System.out.println(closetTriplets(new int[]{1,0,1,1}, 100));
     }
 
 
