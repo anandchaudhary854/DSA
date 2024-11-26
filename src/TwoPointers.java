@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TwoPointers {
 
@@ -184,6 +181,118 @@ public class TwoPointers {
         return smallestSum;
     }
 
+    //Problem Statement #
+    //Given an array arr of unsorted numbers and a target sum, count all triplets in it such that arr[i] + arr[j] + arr[k] < target where i, j, and k are three different indices. Write a function to return the count of such triplets.
+    //
+    //Example 1:
+    //
+    //Input: [-1, 0, 2, 3], target=3
+    //Output: 2
+    //Explanation: There are two triplets whose sum is less than the target: [-1, 0, 3], [-1, 0, 2]
+    //Example 2:
+    //
+    //Input: [-1, 4, 2, 1, 3], target=5
+    //Output: 4
+    //Explanation: There are four triplets whose sum is less than the target:
+    //   [-1, 1, 4], [-1, 1, 3], [-1, 1, 2], [-1, 2, 3]
+
+    static int smallerTriplets(int[] arr, int target){
+        int count = 0;
+        Arrays.sort(arr);
+
+        for (int i = 0; i < arr.length - 2; i++) {
+            int left = i + 1, right = arr.length - 1;
+            int diff = target - arr[i];
+            while(left < right){
+                int sum = arr[left] + arr[right];
+                if(diff > sum){
+                    count+= right - left;
+                    printTriplets(arr, arr[i], left, right);
+                    left++;
+                }else{
+                    right--;
+                }
+            }
+        }
+        return count;
+    }
+
+    static void printTriplets(int[] arr, int firstEl, int l, int r){
+        while(l < r){
+            System.out.println(Arrays.toString(new int[] {firstEl, arr[l], arr[r--]}));
+        }
+    }
+
+    //Problem Statement #
+    //Given an array with positive numbers and a target number, find all of its contiguous subarrays whose product is less than the target number.
+    //
+    //Example 1:
+    //
+    //Input: [2, 5, 3, 10], target=30
+    //Output: [2], [5], [2, 5], [3], [5, 3], [10]
+    //Explanation: There are six contiguous subarrays whose product is less than the target.
+    //Example 2:
+    //
+    //Input: [8, 2, 6, 5], target=50
+    //Output: [8], [2], [8, 2], [6], [2, 6], [5], [6, 5]
+    //Explanation: There are seven contiguous subarrays whose product is less than the target.
+
+    static void smallerProducts(int [] arr, int target){
+        int st = 0, product = 1;
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < arr.length; i++) {
+            product *= arr[i];
+            while (product >= target && st < arr.length) product /= arr[st++];
+
+            List<Integer> tempList = new LinkedList<>();
+            for (int j = i; j >= st; j--) {
+                tempList.add(0, arr[j]);
+                System.out.println(tempList);
+                result.add(tempList);
+            }
+//            System.out.println(tempList);
+        }
+
+    }
+
+    //Problem Statement #
+    //Given an array containing 0s, 1s and 2s, sort the array in-place.
+    // You should treat numbers of the array as objects, hence, we can’t count 0s, 1s, and 2s to recreate the array.
+    //
+    //The flag of the Netherlands consists of three colors: red, white and blue; and since our input array also consists
+    // of three different numbers that is why it is called Dutch National Flag problem.
+    //
+    //Example 1:
+    //
+    //Input: [1, 0, 2, 1, 0]
+    //Output: [0 0 1 1 2]
+    //Example 2:
+    //
+    //Input: [2, 2, 0, 1, 2, 0]
+    //Output: [0 0 1 2 2 2 ]
+
+    static int[] sortArr(int[] arr){
+        int left = 0, right = arr.length - 1;
+        for (int i = 0; i <= right;) {
+            if(arr[i] == 0){
+                int temp = arr[left];
+                arr[left] = arr[i];
+                arr[i] = temp;
+                i++;
+                left++;
+            } else if (arr[i] == 1) {
+                i++;
+            }else{
+                int temp = arr[right];
+                arr[right] = arr[i];
+                arr[i] = temp;
+                right--;
+            }
+        }
+        return arr;
+    }
+
+
 
 
     public static void main(String[] args) {
@@ -192,8 +301,13 @@ public class TwoPointers {
 //        System.out.println(Arrays.toString(squareSortedArr(new int[]{-2, -1, 0, 2, 3})));
 
 //        System.out.println(findTriplets(new int[]{-3, 0, 1, 2, -1, 1, -2}));
-        System.out.println(closetTriplets(new int[]{1,0,1,1}, 100));
+//        System.out.println(closetTriplets(new int[]{1,0,1,1}, 100));
+//        System.out.println(smallerTriplets(new int[] {-1, 4, 2, 1, 3}, 5));
+//            smallerProducts(new int[]{8, 2, 6, 5}, 50);
+        System.out.println(Arrays.toString(sortArr(new int[]{1, 0, 2, 1, 0})));
     }
+
+
 
 
 }
