@@ -1,3 +1,5 @@
+package TwoPointers;
+
 import java.util.*;
 
 public class TwoPointers {
@@ -304,7 +306,7 @@ public class TwoPointers {
 //        System.out.println(closetTriplets(new int[]{1,0,1,1}, 100));
 //        System.out.println(smallerTriplets(new int[] {-1, 4, 2, 1, 3}, 5));
 //            smallerProducts(new int[]{8, 2, 6, 5}, 50);
-        System.out.println(Arrays.toString(sortArr(new int[]{1, 0, 2, 1, 0})));
+        System.out.println(Arrays.toString(sortArr(new int[]{2, 2, 0, 1, 2, 0})));
     }
 
 
